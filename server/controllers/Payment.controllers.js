@@ -45,10 +45,10 @@ exports.paymentVerification = async (req, res) => {
       await Payment.create({razorpay_payment_id, razorpay_order_id, razorpay_signature})
 
       // If all are ok then redirect to the Home page
-      res.redirect("http://localhost:5173/")
+      return res.redirect("http://localhost:5173/");
 
-      return res.status(200)
-      .json({ success: true, message: "Payment Verified Successful" });
+      // return res.status(200)
+      // .json({ success: true, message: "Payment Verified Successful" });
     }
     else{
       return res.status(200)
