@@ -2,7 +2,6 @@ const KEY = import.meta.env.VITE_RAZORPAY_KEY_ID;
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { FaHeart } from "react-icons/fa";
 
 function Form() {
   const [amount, setAmount] = useState(1);
@@ -18,26 +17,27 @@ function Form() {
     setAmount(parseInt(value.amount));
     const { name, email, message } = value;
 
-    let orderData;
+    let responseData;
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/v1/payment/checkout",
-        { amount }
+        "http://localhost:8000/api/v1/payment/checkout",{ amount, name, email, message}
       );
-      orderData = response.data.order;
-    } catch (error) {
-      console.error("Error occurred while submitting:", error);
+      responseData = response.data.order;
+      // console.log(responseData);
+    } 
+    catch (error) {
+      console.error("An error occurred while calling the CHECKOUT API:", error);
     }
 
     let options = {
       key: KEY,
-      amount: orderData.amount,
+      amount: responseData.amount,
       currency: "INR",
       name: "Buy me a tea",
       description: "Test Transaction",
       image:
         "https://static.vecteezy.com/system/resources/previews/005/171/120/non_2x/coffee-cup-with-coffee-beans-illustration-free-vector.jpg",
-      order_id: orderData.id,
+      order_id: responseData.id,
       callback_url: "http://localhost:8000/api/v1/payment/paymentverification",
       prefill: {
         name: `${name}`, //Customer's name
