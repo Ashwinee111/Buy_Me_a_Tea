@@ -85,24 +85,23 @@ exports.paymentVerification = async (req, res) => {
 };
 
 // <-- GET ALL PAYMENT  -->
-exports.getAllPayments = async (req, res) =>{
+exports.getAllPayments = async (req, res) => {
   try {
-    // Find all payments in the database
-    const payments = await Payment.find();
+    // Find all payments in the database where razorpay_payment_id is not null
+    const payments = await Payment.find({ razorpay_payment_id: { $ne: null } });
 
     // If payments are found, send them as a response
-    if (payments) {
+    if (payments && payments.length > 0) {
       return res.status(200).json({
         success: true,
         message: "Payments found successfully",
         payments: payments
       });
-    } 
-    else {
+    } else {
       // If no payments are found, return an appropriate message
       return res.status(404).json({
         success: false,
-        message: "No payments found"
+        message: "No payments found with non-null razorpay_payment_id"
       });
     }
   } 
@@ -115,3 +114,4 @@ exports.getAllPayments = async (req, res) =>{
     });
   }
 }
+
