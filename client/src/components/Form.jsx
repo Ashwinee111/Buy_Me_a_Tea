@@ -35,20 +35,19 @@ function Form() {
       currency: "INR",
       name: "Buy me a tea",
       description: "Test Transaction",
-      image:
-        "https://static.vecteezy.com/system/resources/previews/005/171/120/non_2x/coffee-cup-with-coffee-beans-illustration-free-vector.jpg",
+      image: "https://res.cloudinary.com/dd8zpyf5j/image/upload/v1708490224/peluwamrcmpjwlvjqcpt.jpg",
       order_id: responseData.id,
       callback_url: "http://localhost:8000/api/v1/payment/paymentverification",
       prefill: {
         name: `${name}`, //Customer's name
         email: `${email}`,
-        contact: "9000090000", //Customer's phone number
+        contact: "", //Customer's phone number
       },
       notes: {
         address: "Razorpay Corporate Office",
       },
       theme: {
-        color: "red",
+        color: "#07273B",
       },
     };
     const razor = new window.Razorpay(options);

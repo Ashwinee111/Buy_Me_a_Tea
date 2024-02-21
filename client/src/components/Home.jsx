@@ -1,14 +1,28 @@
 import Form from "./Form";
 import Profile from "../assets/myProfile.png";
 import Tea from "../assets/tea.png";
+import Donate from "../assets/donate.gif"
 import { TfiLinkedin } from "react-icons/tfi";
 import { FaXTwitter } from "react-icons/fa6";
 import { PiGithubLogoFill } from "react-icons/pi";
 import { RiDiscordLine } from "react-icons/ri";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function Home() {
-  const [supportUser, setSupportUser] = useState([]);
+  const [paymentDetails, setPaymentDetails] = useState([]);
+
+  const currentYear = new Date()
+
+  const getPaymentDetails = async () => {
+    const response = await axios.get("http://localhost:8000/api/v1/payment/getAllPayments");
+    const responseValue = response.data.payments;
+    setPaymentDetails(responseValue);
+  };
+
+  useEffect(() => {
+    getPaymentDetails();
+  }, []);
 
   return (
     <div className="p-2">
@@ -31,10 +45,10 @@ function Home() {
             alt="profilr_logo"
             className="aspect-square w-[100px] rounded-full object-cover mx-auto mt-[-50px]"
           />
-          <h3 className="text-[23px] font-medium text-primary mt-1">
+          <h3 className="text-[24px] font-medium text-primary mt-1">
             Ashwinee Kumar Sethi
           </h3>
-          <p className="text-[17px] font-normal text-primary mt-1">
+          <p className="text-[16px] font-medium text-[#a2a8b4] mt-1">
             Software Engineer
           </p>
           <h4 className="text-[17px] font-normal text-primary mt-1 md:w-[50%] m-auto">
@@ -89,26 +103,32 @@ function Home() {
                 Recent supporters
               </p>
               {/* Supporters User  */}
-              {supportUser.length > 0 ? (
-                <div className="flex rounded-xl gap-3 mt-5 bg-[#1D2025] p-2">
-                  <div className="grid place-items-center">
-                    <img
-                      className="aspect-square w-[50px] rounded-full object-cover"
-                      src={Profile}
-                      alt="user_image"
-                    />
-                  </div>
-                  <div class="text-center md:text-left w-full">
-                    <div>
-                      <div className="text-[16px] font-medium text-primary">
-                        Ashwinee Kumar
-                      </div>
-                      <div className="text-[15px] font-normal text-[#9CA3AF]">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              {paymentDetails.length > 0 ? (
+                paymentDetails.map((paymentDetail) => (
+                  <div
+                    className="flex rounded-xl gap-3 mt-5 bg-[#1D2025] p-2"
+                    key={paymentDetail._id}
+                  >
+                    <div className="grid place-items-center">
+                      <img
+                        className="aspect-square w-[50px] rounded-full object-cover"
+                        src={Donate}
+                        alt="user_image"
+                      />
+                    </div>
+                    <div className="text-center md:text-left w-full">
+                      <div>
+                        <div className="text-[16px] font-medium text-primary">
+                          {paymentDetail.name}{" "}
+                          <span>₹{paymentDetail.amount}</span>
+                        </div>
+                        <div className="text-[15px] font-normal text-[#9CA3AF]">
+                          {paymentDetail.message}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                ))
               ) : (
                 <div className="text-[16px] font-medium text-[#9CA3AF] mt-2">
                   No one supported yet!
@@ -121,6 +141,9 @@ function Home() {
             <Form />
           </div>
         </div>
+        <hr className="my-5 h-0.5 border-t-0 bg-[#2A2E34] opacity-100 dark:opacity-50" />
+        {/* AFooter */}
+        <footer className="text-center text-[17px] font-medium text-primary">&#169; {currentYear .getFullYear()} Ashwinee </footer>
       </div>
     </div>
   );
