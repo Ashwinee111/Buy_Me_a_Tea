@@ -2,8 +2,11 @@ const KEY = import.meta.env.VITE_RAZORPAY_KEY_ID;
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { endPoints } from "../api";
 
 function Form() {
+  const { CHECKOUT, PAYMENT_VERIFICATION } = endPoints;
+
   const [amount, setAmount] = useState(1);
 
   const {
@@ -19,13 +22,15 @@ function Form() {
 
     let responseData;
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/payment/checkout",{ amount, name, email, message}
-      );
+      const response = await axios.post(CHECKOUT, {
+        amount,
+        name,
+        email,
+        message,
+      });
       responseData = response.data.order;
       // console.log(responseData);
-    } 
-    catch (error) {
+    } catch (error) {
       console.error("An error occurred while calling the CHECKOUT API:", error);
     }
 
@@ -33,18 +38,18 @@ function Form() {
       key: KEY,
       amount: responseData.amount,
       currency: "INR",
-      name: "Buy me a tea",
-      description: "Test Transaction",
+      name: "Buy Me a Tea",
+      description: "Experience the joy of generosity with a refreshing cup of tea! Your contribution fuels our mission to spread warmth and happiness. Join us in this delightful journey. Cheers to kindness!",
       image: "https://res.cloudinary.com/dd8zpyf5j/image/upload/v1708490224/peluwamrcmpjwlvjqcpt.jpg",
       order_id: responseData.id,
-      callback_url: "http://localhost:8000/api/v1/payment/paymentverification",
+      callback_url: PAYMENT_VERIFICATION,
       prefill: {
         name: `${name}`, //Customer's name
         email: `${email}`,
         contact: "", //Customer's phone number
       },
       notes: {
-        address: "Razorpay Corporate Office",
+        address: "Buy Me a Tea",
       },
       theme: {
         color: "#07273B",

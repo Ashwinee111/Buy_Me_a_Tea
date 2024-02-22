@@ -9,12 +9,14 @@ import { RiDiscordLine } from "react-icons/ri";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Footer from "./Footer";
+import { endPoints } from "../api";
 
 function Home() {
+  const { GET_ALLPAYMENT } = endPoints;
   const [paymentDetails, setPaymentDetails] = useState([]);
 
   const getPaymentDetails = async () => {
-    const response = await axios.get( "http://localhost:8000/api/v1/payment/getAllPayments" );
+    const response = await axios.get( GET_ALLPAYMENT );
     const responseValue = response.data.payments;
     setPaymentDetails(responseValue);
   };
