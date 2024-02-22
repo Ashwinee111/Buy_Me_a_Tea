@@ -62,7 +62,7 @@ exports.paymentVerification = async (req, res) => {
 
       if (updatedPayment) {
         // If the payment was updated successfully, redirect to the home page
-        return res.redirect("http://localhost:5173/");
+        return res.redirect("https://buy-me-a-tea-ashwinee.vercel.app/");
       } 
       else {
         // If payment document was not found, return an error
