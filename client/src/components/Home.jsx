@@ -33,7 +33,7 @@ function Home() {
             alt="banner"
             className="h-[90px] rotate-6 mt-[-20px]"
           />
-          <h3 className="text-[40px] font-secondary font-semibold text-primary">
+          <h3 className="text-[38px] font-secondary font-semibold text-primary">
             Buy me a tea...
           </h3>
         </div>
