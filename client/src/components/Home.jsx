@@ -1,21 +1,20 @@
 import Form from "./Form";
 import Profile from "../assets/myProfile.png";
 import Tea from "../assets/tea.png";
-import Donate from "../assets/donate.gif"
+import Donate from "../assets/donate.gif";
 import { TfiLinkedin } from "react-icons/tfi";
 import { FaXTwitter } from "react-icons/fa6";
 import { PiGithubLogoFill } from "react-icons/pi";
 import { RiDiscordLine } from "react-icons/ri";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Footer from "./Footer";
 
 function Home() {
   const [paymentDetails, setPaymentDetails] = useState([]);
 
-  const currentYear = new Date()
-
   const getPaymentDetails = async () => {
-    const response = await axios.get("http://localhost:8000/api/v1/payment/getAllPayments");
+    const response = await axios.get( "http://localhost:8000/api/v1/payment/getAllPayments" );
     const responseValue = response.data.payments;
     setPaymentDetails(responseValue);
   };
@@ -73,25 +72,25 @@ function Home() {
               </p>
               <div className="flex gap-x-3 mt-4">
                 <a
-                  href="https://www.linkedin.com/in/ashwinee111/"
+                  to="https://www.linkedin.com/in/ashwinee111/"
                   className="text-[24px] text-primary"
                 >
                   <TfiLinkedin />
                 </a>
                 <a
-                  href="https://github.com/Ashwinee111"
+                  to="https://github.com/Ashwinee111"
                   className="text-[24px] text-primary"
                 >
                   <PiGithubLogoFill />
                 </a>
                 <a
-                  href="https://twitter.com/Ashwinee_111"
+                  to="https://twitter.com/Ashwinee_111"
                   className="text-[24px] text-primary"
                 >
                   <FaXTwitter />
                 </a>
                 <a
-                  href="https://discord.com/"
+                  to="https://discord.com/"
                   className="text-[24px] text-primary"
                 >
                   <RiDiscordLine />
@@ -141,9 +140,8 @@ function Home() {
             <Form />
           </div>
         </div>
-        <hr className="my-5 h-0.5 border-t-0 bg-[#2A2E34] opacity-100 dark:opacity-50" />
-        {/* AFooter */}
-        <footer className="text-center text-[17px] font-medium text-primary">&#169; {currentYear .getFullYear()} Ashwinee </footer>
+        {/* Footer */}
+        <Footer />
       </div>
     </div>
   );
